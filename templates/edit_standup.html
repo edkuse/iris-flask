@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}Standup Manager - Edit Standup{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <div class="flex justify-between items-center">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">Edit Standup</h1>
+        <a href="{{ url_for('view_standup', standup_id=standup.id) }}" class="text-blue-600 hover:text-blue-800">
+            <i class="fas fa-arrow-left mr-1"></i> Back to Standup
+        </a>
+    </div>
+    <p class="text-gray-600">Update the configuration for "{{ standup.name }}"</p>
+</div>
+
+<div class="bg-white rounded-lg shadow-md p-6">
+    <form method="POST" action="{{ url_for('edit_standup', standup_id=standup.id) }}">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Basic Information -->
+            <div>
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Basic Information</h2>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+                        Standup Name
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                           id="name" 
+                           name="name" 
+                           type="text" 
+                           value="{{ standup.name }}"
+                           required>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">
+                        Days of Week
+                    </label>
+                    <div class="grid grid-cols-2 gap-2">
+                        {% set days = [('0', 'Monday'), ('1', 'Tuesday'), ('2', 'Wednesday'), ('3', 'Thursday'), ('4', 'Friday'), ('5', 'Saturday'), ('6', 'Sunday')] %}
+                        {% set selected_days = standup.days_of_week.split(',') %}
+                        {% for value, label in days %}
+                        <div class="flex items-center">
+                            <input type="checkbox" 
+                                   id="day_{{ value }}" 
+                                   name="days" 
+                                   value="{{ value }}" 
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                                   {% if value in selected_days %}checked{% endif %}>
+                            <label for="day_{{ value }}" class="ml-2 block text-sm text-gray-700">
+                                {{ label }}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="time_of_day">
+                        Time of Day
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                           id="time_of_day" 
+                           name="time_of_day" 
+                           type="time" 
+                           value="{{ standup.time_of_day }}" 
+                           required>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="timezone">
+                        Timezone
+                    </label>
+                    <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                            id="timezone" 
+                            name="timezone" 
+                            required>
+                        {% for tz in timezones %}
+                        <option value="{{ tz }}" {% if tz == standup.timezone %}selected{% endif %}>{{ tz }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="duration">
+                        Duration (minutes)
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                           id="duration" 
+                           name="duration" 
+                           type="number" 
+                           min="5" 
+                           max="60" 
+                           value="{{ standup.duration_minutes }}" 
+                           required>
+                </div>
+            </div>
+            
+            <!-- Team Configuration -->
+            <div>
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Team Configuration</h2>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="facilitator_id">
+                        Facilitator
+                    </label>
+                    <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                            id="facilitator_id" 
+                            name="facilitator_id" 
+                            required>
+                        {% for user in users %}
+                        <option value="{{ user.id }}" {% if user.id == standup.facilitator_id %}selected{% endif %}>
+                            {{ user.username }} ({{ user.email }})
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="member_ids">
+                        Team Members
+                    </label>
+                    <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                            id="member_ids" 
+                            name="member_ids" 
+                            multiple 
+                            size="6" 
+                            required>
+                        {% for user in users %}
+                        <option value="{{ user.id }}" {% if user.id in member_ids %}selected{% endif %}>
+                            {{ user.username }} ({{ user.email }})
+                        </option>
+                        {% endfor %}
+                    </select>
+                    <p class="text-sm text-gray-600 mt-1">Hold Ctrl/Cmd to select multiple members</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-6 flex justify-end">
+            <a href="{{ url_for('view_standup', standup_id=standup.id) }}" class="bg-white border border-att-blue text-att-blue hover:bg-att-lightblue hover:text-white font-bold py-2 px-4 rounded transition duration-300">
+                Cancel
+            </a>
+            <button type="submit" class="bg-att-blue hover:bg-att-lightblue text-white font-bold py-2 px-4 rounded transition duration-300">
+                Update Standup
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Handle time format conversion if needed
+    document.addEventListener('DOMContentLoaded', function() {
+        const timeInput = document.getElementById('time_of_day');
+        // If time is in ISO format (e.g. "09:00:00"), convert to "09:00" for the time input
+        if (timeInput.value.includes(':')) {
+            const timeParts = timeInput.value.split(':');
+            if (timeParts.length > 2) {
+                timeInput.value = `${timeParts[0]}:${timeParts[1]}`;
+            }
+        }
+    });
+</script>
+{% endblock %}

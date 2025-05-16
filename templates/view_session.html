@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}Standup Manager - Session{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <div class="flex justify-between items-center">
+        <h1 class="text-3xl font-bold text-gray-800">Session Details</h1>
+        <a href="{{ url_for('view_standup', standup_id=standup_session.standup_id) }}" class="text-att-blue hover:text-blue-800">
+            <i class="fas fa-arrow-left mr-1"></i> Back to Standup
+        </a>
+    </div>
+    <p class="text-gray-600">
+        Session Date: {{ standup_session.date|convert_timezone(target_tz=timezone) }}
+        <span class="text-sm text-gray-500">({{ timezone }})</span>
+    </p>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Submit Response Form -->
+    <div class="lg:col-span-1">
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="bg-att-blue text-white px-4 py-2">
+                <h2 class="text-sm font-bold">Your Update</h2>
+            </div>
+            <div class="p-4">
+                {% if user_has_responded %}
+                    <div class="py-4">
+                        <p class="text-green-600 font-semibold">You have already submitted your update for this session.</p>
+                    </div>
+                {% else %}
+                    <form method="POST" action="{{ url_for('view_session', session_id=standup_session.id) }}">
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="yesterday">
+                                What did you do yesterday?
+                            </label>
+                            <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                                      id="yesterday" 
+                                      name="yesterday" 
+                                      rows="3" 
+                                      required></textarea>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="today">
+                                What are you working on today?
+                            </label>
+                            <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                                      id="today" 
+                                      name="today" 
+                                      rows="3" 
+                                      required></textarea>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="blockers">
+                                Do you have any blockers?
+                            </label>
+                            <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                                      id="blockers" 
+                                      name="blockers" 
+                                      rows="3" 
+                                      required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-att-blue hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            Submit Update
+                        </button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Team Responses -->
+    <div class="lg:col-span-2">
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="bg-att-blue text-white px-4 py-2">
+                <h2 class="text-sm font-bold">Team Updates</h2>
+            </div>
+            <div class="p-4">
+                {% if responses %}
+                    <div class="space-y-6">
+                        {% for response in responses %}
+                        <div class="border-b border-gray-200 pb-4 {% if loop.last %}border-b-0{% endif %}">
+                            <!-- In view_session.html, update the response display -->
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">
+                                    {% if response.user %}
+                                        {% if response.user.id == standup_session.get('user_id') %}
+                                            You
+                                        {% else %}
+                                            {{ response.user.username }}
+                                        {% endif %}
+                                    {% else %}
+                                        User ID: {{ response.user_id }}
+                                    {% endif %}
+                                </h3>
+                                <span class="text-sm text-gray-500">
+                                    {{ response.created_at|convert_timezone(target_tz=timezone) }}
+                                </span>
+                            </div>
+                            
+                            <div class="mb-2">
+                                <h4 class="text-sm font-semibold text-gray-700">Yesterday:</h4>
+                                <p class="text-gray-700">{{ response.yesterday }}</p>
+                            </div>
+                            
+                            <div class="mb-2">
+                                <h4 class="text-sm font-semibold text-gray-700">Today:</h4>
+                                <p class="text-gray-700">{{ response.today }}</p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-sm font-semibold text-gray-700">Blockers:</h4>
+                                <p class="text-gray-700">{{ response.blockers }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <p class="text-gray-700">No team members have submitted updates yet.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

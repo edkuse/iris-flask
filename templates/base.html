@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Standup Manager{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom styles */
+        .flash-messages {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 50;
+            width: 100%;
+            max-width: 24rem;
+        }
+        
+        .flash-message {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+        
+        /* For reduced motion preference */
+        @media (prefers-reduced-motion: no-preference) {
+            .flash-message {
+                transition: transform 0.3s ease, opacity 0.3s ease;
+            }
+        }
+        
+        /* Toast stacking */
+        .flash-messages {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-att-blue text-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="{{ url_for('index') }}" class="text-xl font-bold">Standup Manager</a>
+            <div class="space-x-4">
+                {% if session.get('token') %}
+                    <a href="{{ url_for('dashboard') }}" class="hover:text-blue-200">Dashboard</a>
+                    {% if session.get('user_role') == 'admin' %}
+                        <a href="{{ url_for('new_standup') }}" class="hover:text-blue-200">New Standup</a>
+                    {% endif %}
+                    <a href="{{ url_for('logout') }}" class="hover:text-blue-200">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="hover:text-blue-200">Login</a>
+                    <a href="{{ url_for('register') }}" class="hover:text-blue-200">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    <div class="flash-messages fixed top-4 right-4 z-50 w-full max-w-sm space-y-2">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% set bg_color = {
+                        'success': 'bg-green-100 border-green-500 text-green-800',
+                        'error': 'bg-red-100 border-red-500 text-red-800',
+                        'warning': 'bg-yellow-100 border-yellow-500 text-yellow-800',
+                        'info': 'bg-blue-100 border-blue-500 text-blue-800'
+                    }.get(category, 'bg-gray-100 border-gray-500 text-gray-800') %}
+                    
+                    {% set icon = {
+                        'success': 'check-circle',
+                        'error': 'x-circle',
+                        'warning': 'alert-triangle',
+                        'info': 'info'
+                    }.get(category, 'bell') %}
+                    
+                    <div class="flash-message transform transition-all duration-300 ease-in-out {{ bg_color }} border-l-4 p-4 rounded-r shadow-md flex items-start" role="alert">
+                        <div class="flex-shrink-0 mr-3">
+                            {% if icon == 'check-circle' %}
+                                <svg class="h-5 w-5 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                            {% elif icon == 'x-circle' %}
+                                <svg class="h-5 w-5 text-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                                </svg>
+                            {% elif icon == 'alert-triangle' %}
+                                <svg class="h-5 w-5 text-yellow-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                </svg>
+                            {% elif icon == 'info' %}
+                                <svg class="h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2h2a1 1 0 100-2H9z" clip-rule="evenodd" />
+                                </svg>
+                            {% else %}
+                                <svg class="h-5 w-5 text-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                                </svg>
+                            {% endif %}
+                        </div>
+                        <div class="flex-grow">
+                            <p class="font-medium">{{ message }}</p>
+                        </div>
+                        <button class="ml-4 flex-shrink-0 text-gray-500 hover:text-gray-700 focus:outline-none" onclick="dismissFlash(this.parentElement)">
+                            <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6 mt-auto">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 Standup Manager. All rights reserved.</p>
+        </div>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+
+    <!-- JavaScript -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        att: {
+                            blue: '#0057B8',       // AT&T Primary Blue
+                            lightblue: '#009FDB',  // AT&T Secondary Blue
+                            orange: '#FF7000',     // AT&T Orange (for accents)
+                            black: '#000000',      // AT&T Black
+                            gray: '#666666',       // Medium Gray
+                            lightgray: '#F2F2F2'   // Light Gray for backgrounds
+                        }
+                    }
+                }
+            }
+        }
+
+        // Function to dismiss a flash message with animation
+        function dismissFlash(element) {
+            element.classList.add('opacity-0', 'translate-x-full');
+            setTimeout(() => {
+                element.remove();
+            }, 300);
+        }
+        
+        // Auto-dismiss flash messages after 5 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            const flashMessages = document.querySelectorAll('.flash-message');
+            
+            // Add entrance animation
+            flashMessages.forEach((message, index) => {
+                // Stagger the animations
+                setTimeout(() => {
+                    message.classList.add('translate-x-0', 'opacity-100');
+                }, index * 150);
+                
+                // Set auto-dismiss timeout
+                setTimeout(() => {
+                    dismissFlash(message);
+                }, 5000 + (index * 150));
+            });
+        });
+    </script>
+</body>
+</html>
