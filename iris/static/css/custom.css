@@ -1,0 +1,81 @@
+/* Import Tailwind CSS base */
+@import 'https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/base.min.css';
+
+/* Custom colors */
+:root {
+  --color-primary: #00388f;
+  --color-primary-light: #335aa6;
+  --color-primary-dark: #002a6b;
+  
+  --color-secondary: #686e74;
+  --color-secondary-light: #8a8f94;
+  --color-secondary-dark: #4d5257;
+  
+  --color-info: #0074b3;
+  --color-info-light: #3391c7;
+  --color-info-dark: #005a8a;
+  
+  --color-success: #2d7e24;
+  --color-success-light: #4c9a44;
+  --color-success-dark: #1f5e19;
+  
+  --color-danger: #c70032;
+  --color-danger-light: #e13357;
+  --color-danger-dark: #9e0028;
+  
+  --color-warning: #ea712f;
+  --color-warning-light: #ee8f59;
+  --color-warning-dark: #d15718;
+  
+  --color-dark: #25303a;
+  --color-dark-light: #3e4a54;
+  --color-dark-dark: #1a232a;
+  
+  --color-light: #f3f4f6;
+  --color-light-dark: #e1e3e6;
+  --color-light-light: #ffffff;
+}
+
+/* Custom utility classes */
+.bg-primary { background-color: var(--color-primary); }
+.bg-primary-light { background-color: var(--color-primary-light); }
+.bg-primary-dark { background-color: var(--color-primary-dark); }
+
+.bg-secondary { background-color: var(--color-secondary); }
+.bg-secondary-light { background-color: var(--color-secondary-light); }
+.bg-secondary-dark { background-color: var(--color-secondary-dark); }
+
+.bg-info { background-color: var(--color-info); }
+.bg-info-light { background-color: var(--color-info-light); }
+.bg-info-dark { background-color: var(--color-info-dark); }
+
+.bg-success { background-color: var(--color-success); }
+.bg-success-light { background-color: var(--color-success-light); }
+.bg-success-dark { background-color: var(--color-success-dark); }
+
+.bg-danger { background-color: var(--color-danger); }
+.bg-danger-light { background-color: var(--color-danger-light); }
+.bg-danger-dark { background-color: var(--color-danger-dark); }
+
+.bg-warning { background-color: var(--color-warning); }
+.bg-warning-light { background-color: var(--color-warning-light); }
+.bg-warning-dark { background-color: var(--color-warning-dark); }
+
+.bg-dark { background-color: var(--color-dark); }
+.bg-dark-light { background-color: var(--color-dark-light); }
+.bg-dark-dark { background-color: var(--color-dark-dark); }
+
+.bg-light { background-color: var(--color-light); }
+.bg-light-dark { background-color: var(--color-light-dark); }
+.bg-light-light { background-color: var(--color-light-light); }
+
+/* Text colors */
+.text-primary { color: var(--color-primary); }
+.text-primary-light { color: var(--color-primary-light); }
+.text-primary-dark { color: var(--color-primary-dark); }
+
+/* Add similar classes for other colors */
+
+/* Import Tailwind CSS components and utilities */
+@import 'https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/components.min.css';
+@import 'https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/utilities.min.css';

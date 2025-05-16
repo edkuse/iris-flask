@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}Standup Manager - Login{% endblock %}
+{% block title %}Iris: Standup Manager - Login{% endblock %}
 
 {% block content %}
 <div class="flex justify-center">
     <div class="w-full max-w-md">
         <div class="bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
-            <h2 class="text-2xl font-bold text-center text-att-blue mb-6">Login</h2>
+            <h2 class="text-2xl font-bold text-center text-primary mb-6">Login</h2>
             <form method="POST" action="{{ url_for('main.login') }}">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
@@ -31,11 +31,11 @@
                            required>
                 </div>
                 <div class="flex items-center justify-between">
-                    <button class="bg-att-blue hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
+                    <button class="bg-primary border border-primary text-primary-100 hover:text-primary-200 font-bold py-2 px-8 rounded-2xl focus:outline-none focus:shadow-outline" 
                             type="submit">
                         Sign In
                     </button>
-                    <a class="inline-block align-baseline font-bold text-sm text-att-blue hover:text-blue-800" href="{{ url_for('main.register') }}">
+                    <a class="inline-block align-baseline font-bold text-sm text-primary hover:text-primary-800" href="{{ url_for('main.register') }}">
                         Need an account?
                     </a>
                 </div>

@@ -1,20 +1,20 @@
 {% extends "base.html" %}
 
-{% block title %}Standup Manager - Home{% endblock %}
+{% block title %}Iris: Standup Manager{% endblock %}
 
 {% block content %}
 <div class="flex flex-col items-center justify-center min-h-[70vh]">
     <div class="text-center max-w-3xl">
-        <h1 class="text-4xl font-bold text-att-blue mb-6">Welcome to Standup Manager</h1>
+        <h1 class="text-4xl font-bold text-primary mb-6">Welcome to Standup Manager</h1>
         <p class="text-xl text-gray-700 mb-8">
             Streamline your team's daily standups with our easy-to-use platform. 
             Create, manage, and participate in standup meetings efficiently.
         </p>
         <div class="flex flex-wrap justify-center gap-4">
-            <a href="{{ url_for('main.login') }}" class="bg-att-blue hover:bg-att-lightblue text-white font-bold py-2 px-4 rounded transition duration-300">
+            <a href="{{ url_for('main.login') }}" class="bg-primary border border-primary text-primary-100 hover:text-primary-200 font-bold py-2 px-12 rounded-2xl transition duration-300">
                 Login
             </a>
-            <a href="{{ url_for('main.register') }}" class="bg-white border border-att-blue text-att-blue hover:bg-att-lightblue hover:text-white font-bold py-2 px-4 rounded transition duration-300">
+            <a href="{{ url_for('main.register') }}" class="bg-secondary border border-primary text-primary-400 hover:text-primary-600 font-bold py-2 px-12 rounded-2xl transition duration-300">
                 Register
             </a>
         </div>
@@ -23,7 +23,7 @@
 
 <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
     <div class="bg-white p-6 rounded-lg shadow-md">
-        <div class="text-att-blue text-4xl mb-4">
+        <div class="text-primary text-4xl mb-4">
             <i class="fas fa-users"></i>
         </div>
         <h2 class="text-xl font-bold mb-2">Team Collaboration</h2>
@@ -33,7 +33,7 @@
     </div>
     
     <div class="bg-white p-6 rounded-lg shadow-md">
-        <div class="text-att-blue text-4xl mb-4">
+        <div class="text-primary text-4xl mb-4">
             <i class="fas fa-calendar-alt"></i>
         </div>
         <h2 class="text-xl font-bold mb-2">Flexible Scheduling</h2>
@@ -43,7 +43,7 @@
     </div>
     
     <div class="bg-white p-6 rounded-lg shadow-md">
-        <div class="text-att-blue text-4xl mb-4">
+        <div class="text-primary text-4xl mb-4">
             <i class="fas fa-chart-line"></i>
         </div>
         <h2 class="text-xl font-bold mb-2">Track Progress</h2>

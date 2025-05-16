@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Iris: Standup Manager{% endblock %}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/tailwind.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/app.css')}}">
     <style>
         /* Custom styles */
         .flash-messages {
@@ -37,21 +38,21 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
+<body class="flex flex-col min-h-screen bg-gray-100">
     <!-- Navigation -->
-    <nav class="bg-att-blue text-white shadow-md">
+    <nav class="bg-primary text-white shadow-md">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="{{ url_for('main.index') }}" class="text-xl font-bold">Iris: Standup Manager</a>
+            <a href="{{ url_for('main.index') }}" class="text-2xl font-bold">Iris: Standup Manager</a>
             <div class="space-x-4">
                 {% if session.get('token') %}
-                    <a href="{{ url_for('standup.dashboard') }}" class="hover:text-blue-200">Dashboard</a>
+                    <a href="{{ url_for('standup.dashboard') }}" class="text-sm hover:text-blue-200">Dashboard</a>
                     {% if session.get('user_role') == 'admin' %}
-                        <a href="{{ url_for('standup.create') }}" class="hover:text-blue-200">New Standup</a>
+                        <a href="{{ url_for('standup.create') }}" class="text-sm hover:text-blue-200">New Standup</a>
                     {% endif %}
-                    <a href="{{ url_for('main.logout') }}" class="hover:text-blue-200">Logout</a>
+                    <a href="{{ url_for('main.logout') }}" class="text-sm hover:text-blue-200">Logout</a>
                 {% else %}
-                    <a href="{{ url_for('main.login') }}" class="hover:text-blue-200">Login</a>
-                    <a href="{{ url_for('main.register') }}" class="hover:text-blue-200">Register</a>
+                    <a href="{{ url_for('main.login') }}" class="text-sm text-primary-100 hover:text-primary-200">Login</a>
+                    <a href="{{ url_for('main.register') }}" class="text-sm text-primary-100 hover:text-primary-200">Register</a>
                 {% endif %}
             </div>
         </div>
@@ -79,19 +80,19 @@
                     <div class="flash-message transform transition-all duration-300 ease-in-out {{ bg_color }} border-l-4 p-4 rounded-r shadow-md flex items-start" role="alert">
                         <div class="flex-shrink-0 mr-3">
                             {% if icon == 'check-circle' %}
-                                <svg class="h-5 w-5 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <svg class="h-5 w-5 text-success" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                                 </svg>
                             {% elif icon == 'x-circle' %}
-                                <svg class="h-5 w-5 text-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <svg class="h-5 w-5 text-danger" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
                                 </svg>
                             {% elif icon == 'alert-triangle' %}
-                                <svg class="h-5 w-5 text-yellow-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <svg class="h-5 w-5 text-warning" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
                                 </svg>
                             {% elif icon == 'info' %}
-                                <svg class="h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <svg class="h-5 w-5 text-info" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2h2a1 1 0 100-2H9z" clip-rule="evenodd" />
                                 </svg>
                             {% else %}
@@ -115,12 +116,12 @@
     </div>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8">
+    <main class="flex-grow container mx-auto px-4 py-8">
         {% block content %}{% endblock %}
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-6 mt-auto">
+    <footer class="bg-gray-800 text-white py-4 mt-auto">
         <div class="container mx-auto px-4 text-center">
             <p>&copy; 2025 Standup Manager. All rights reserved.</p>
         </div>
@@ -130,23 +131,6 @@
 
     <!-- JavaScript -->
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        att: {
-                            blue: '#0057B8',       // AT&T Primary Blue
-                            lightblue: '#009FDB',  // AT&T Secondary Blue
-                            orange: '#FF7000',     // AT&T Orange (for accents)
-                            black: '#000000',      // AT&T Black
-                            gray: '#666666',       // Medium Gray
-                            lightgray: '#F2F2F2'   // Light Gray for backgrounds
-                        }
-                    }
-                }
-            }
-        }
-
         // Function to dismiss a flash message with animation
         function dismissFlash(element) {
             element.classList.add('opacity-0', 'translate-x-full');
