@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from .helpers import api_request_with_refresh, login_required, role_required
-from app import logger
+from iris import logger
 import pytz
 
 bp = Blueprint('standup', __name__, url_prefix='/standup')
