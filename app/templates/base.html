@@ -41,17 +41,17 @@
     <!-- Navigation -->
     <nav class="bg-att-blue text-white shadow-md">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="{{ url_for('index') }}" class="text-xl font-bold">Standup Manager</a>
+            <a href="{{ url_for('main.index') }}" class="text-xl font-bold">Standup Manager</a>
             <div class="space-x-4">
                 {% if session.get('token') %}
-                    <a href="{{ url_for('dashboard') }}" class="hover:text-blue-200">Dashboard</a>
+                    <a href="{{ url_for('standup.dashboard') }}" class="hover:text-blue-200">Dashboard</a>
                     {% if session.get('user_role') == 'admin' %}
-                        <a href="{{ url_for('new_standup') }}" class="hover:text-blue-200">New Standup</a>
+                        <a href="{{ url_for('standup.create') }}" class="hover:text-blue-200">New Standup</a>
                     {% endif %}
-                    <a href="{{ url_for('logout') }}" class="hover:text-blue-200">Logout</a>
+                    <a href="{{ url_for('main.logout') }}" class="hover:text-blue-200">Logout</a>
                 {% else %}
-                    <a href="{{ url_for('login') }}" class="hover:text-blue-200">Login</a>
-                    <a href="{{ url_for('register') }}" class="hover:text-blue-200">Register</a>
+                    <a href="{{ url_for('main.login') }}" class="hover:text-blue-200">Login</a>
+                    <a href="{{ url_for('main.register') }}" class="hover:text-blue-200">Register</a>
                 {% endif %}
             </div>
         </div>

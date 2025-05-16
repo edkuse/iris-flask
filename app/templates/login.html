@@ -7,7 +7,7 @@
     <div class="w-full max-w-md">
         <div class="bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
             <h2 class="text-2xl font-bold text-center text-att-blue mb-6">Login</h2>
-            <form method="POST" action="{{ url_for('login') }}">
+            <form method="POST" action="{{ url_for('main.login') }}">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
                         Username
@@ -35,7 +35,7 @@
                             type="submit">
                         Sign In
                     </button>
-                    <a class="inline-block align-baseline font-bold text-sm text-att-blue hover:text-blue-800" href="{{ url_for('register') }}">
+                    <a class="inline-block align-baseline font-bold text-sm text-att-blue hover:text-blue-800" href="{{ url_for('main.register') }}">
                         Need an account?
                     </a>
                 </div>

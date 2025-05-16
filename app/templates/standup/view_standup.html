@@ -6,7 +6,7 @@
 <div class="mb-8">
     <div class="flex justify-between items-center">
         <h1 class="text-3xl font-bold text-gray-800">{{ standup.name }}</h1>
-        <a href="{{ url_for('dashboard') }}" class="text-att-blue hover:text-blue-800">
+        <a href="{{ url_for('standup.dashboard') }}" class="text-att-blue hover:text-blue-800">
             <i class="fas fa-arrow-left mr-1"></i> Back to Dashboard
         </a>
     </div>
@@ -19,7 +19,7 @@
             <div class="bg-att-blue text-white px-4 py-2 flex justify-between items-center">
                 <h2 class="text-sm font-bold">Standup Details</h2>
                 {% if session.get('user_role') == 'admin' %}
-                    <a href="{{ url_for('edit_standup', standup_id=standup.id) }}" class="bg-white hover:bg-gray-100 text-att-blue text-xs font-bold py-1 px-2 rounded">
+                    <a href="{{ url_for('standup.edit', standup_id=standup.id) }}" class="bg-white hover:bg-gray-100 text-att-blue text-xs font-bold py-1 px-2 rounded">
                         <i class="fas fa-edit mr-1"></i> Edit
                     </a>
                 {% endif %}
@@ -59,7 +59,7 @@
                 {% if standup.facilitator_id == session.get('user_id') or session.get('user_role') == 'admin' %}
                 <div class="mt-4">
                     <h3 class="text-lg font-semibold text-gray-800 mb-2">Create New Session</h3>
-                    <form method="POST" action="{{ url_for('create_session', standup_id=standup.id) }}">
+                    <form method="POST" action="{{ url_for('standup.create_session', standup_id=standup.id) }}">
                         <div class="mb-3">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="session_date">
                                 Session Date
@@ -122,7 +122,7 @@
                                         {% endif %}
                                     </td>
                                     <td class="py-2 px-4 border-b border-gray-200">
-                                        <a href="{{ url_for('view_session', session_id=session.id) }}" class="text-blue-600 hover:text-blue-900">
+                                        <a href="{{ url_for('standup.view_session', session_id=session.id) }}" class="text-blue-600 hover:text-blue-900">
                                             View
                                         </a>
                                     </td>
