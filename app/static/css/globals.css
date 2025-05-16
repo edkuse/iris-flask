@@ -1,0 +1,48 @@
+
+body {
+  color: #1d2329;
+  font-family: font-regular, sans-serif;
+  font-size: 1.8rem;
+  font-weight: normal;
+  line-height: 1;
+  min-height: 100vh;
+  position: relative;
+  width: 100%;
+}
+
+/* FONTS ********************* */
+@font-face {
+  font-display: swap;
+  font-family: 'font-regular';
+  src: url("../fonts/ATTAleckSans_W_Rg.woff2") format("woff2"), url("../fonts/ATTAleckSans_W_Rg.woff") format("woff");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'font-bold';
+  src: url("../fonts/ATTAleckSans_W_Bd.woff2") format("woff2"), url("../fonts/ATTAleckSans_W_Bd.woff") format("woff");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'font-medium';
+  src: url("../fonts/ATTAleckSans_W_Md.woff2") format("woff2"), url("../fonts/ATTAleckSans_W_Md.woff") format("woff");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'font-thin';
+  src: url("../fonts/ATTAleckSans_W_Th.woff2") format("woff2"), url("../fonts/ATTAleckSans_W_Th.woff") format("woff");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'font-light';
+  src: url("../fonts/ATTAleckSans_W_Lt.woff2") format("woff2"), url("../fonts/ATTAleckSans_W_Lt.woff") format("woff");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'font-black';
+  src: url("../fonts/ATTAleckSans_W_Blk.woff2") format("woff2"), url("../fonts/ATTAleckSans_W_Blk.woff") format("woff");
+}
